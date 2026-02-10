@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SairoLabs | Contact</title>
+    <meta
+      name="description"
+      content="Contact SairoLabs for support and inquiries."
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #0b0b0b;
+        --muted: #3f3f3f;
+        --line: #d9d9d9;
+        --accent: #0b0b0b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 64px 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 860px;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        padding: 48px 48px 56px;
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2.3rem, 3vw, 3rem);
+        letter-spacing: 0.04em;
+      }
+
+      .tagline {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      section {
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+      }
+
+      p {
+        margin: 0 0 14px;
+        line-height: 1.8;
+        color: var(--text);
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .footer {
+        margin-top: 36px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 32px 16px;
+        }
+
+        .container {
+          padding: 32px 24px 40px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>SairoLabs</h1>
+        <p class="tagline" data-i18n="tagline">
+          We are an app building company shaping calm, thoughtful software for everyday life.
+        </p>
+      </header>
+
+      <section>
+        <h2 data-i18n="contactHeading">Contact</h2>
+        <p data-i18n="contactBody">For support and inquiries, reach us at:</p>
+        <p>
+          <a href="mailto:support@sairolabs.com">support@sairolabs.com</a>
+        </p>
+      </section>
+
+      <section>
+        <p>
+          <a href="/" data-i18n="backHome">Back to Home</a>
+        </p>
+      </section>
+
+      <div class="footer" data-i18n="footer">
+        SairoLabs &copy; 2026 - Building what feels right, for everyone.
+      </div>
+    </div>
+
+    <script>
+      const messages = {
+        en: {
+          tagline:
+            "We are an app building company shaping calm, thoughtful software for everyday life.",
+          contactHeading: "Contact",
+          contactBody: "For support and inquiries, reach us at:",
+          backHome: "Back to Home",
+          footer: `SairoLabs \u00A9 ${new Date().getFullYear()} - Building what feels right, for everyone.`
+        }
+      };
+
+      const locale =
+        navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "en";
+      const dictionary = messages[locale];
+
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        if (dictionary[key]) {
+          node.textContent = dictionary[key];
+        }
+      });
+    </script>
+  </body>
+</html>

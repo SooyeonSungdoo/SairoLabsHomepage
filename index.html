@@ -106,6 +106,14 @@
         color: var(--muted);
       }
 
+      .link-row {
+        margin-top: 8px;
+      }
+
+      .link-row a {
+        color: var(--accent);
+      }
+
       @media (max-width: 640px) {
         body {
           padding: 32px 16px;
@@ -125,54 +133,93 @@
     <div class="container">
       <header>
         <h1>SairoLabs</h1>
-        <p class="tagline">
+        <p class="tagline" data-i18n="tagline">
           We are an app building company shaping calm, thoughtful software for everyday life.
         </p>
       </header>
 
       <section>
-        <h2>Vision</h2>
-        <p>
+        <h2 data-i18n="visionHeading">Vision</h2>
+        <p data-i18n="visionBody1">
           SairoLabs exists to build apps that feel human. We design for clarity, we engineer for
           trust, and we obsess over the small details that make technology feel effortless.
         </p>
-        <p>
+        <p data-i18n="visionBody2">
           Our work is guided by one simple belief: the best apps remove friction and give people
           back their time, attention, and confidence.
         </p>
       </section>
 
       <section>
-        <h2>What We Will Deliver</h2>
+        <h2 data-i18n="deliverHeading">What We Will Deliver</h2>
         <ul>
-          <li><span class="emphasis">Accessible</span> by default, so everyone can participate.</li>
-          <li><span class="emphasis">Easy to use</span>, with flows that feel natural.</li>
-          <li><span class="emphasis">Delighting</span>, through care, craft, and warmth.</li>
+          <li>
+            <span class="emphasis">Accessible</span> by default, so everyone can participate.
+          </li>
+          <li>
+            <span class="emphasis">Easy to use</span>, with flows that feel natural.
+          </li>
+          <li>
+            <span class="emphasis">Delighting</span>, through care, craft, and warmth.
+          </li>
         </ul>
       </section>
 
       <section>
-        <h2>Today</h2>
-        <p>
+        <h2 data-i18n="todayHeading">Today</h2>
+        <p data-i18n="todayBody1">
           We are early in our journey and currently building our first products. While our
           portfolio is still taking shape, our commitment to thoughtful, well-crafted apps is
           already set in motion.
         </p>
-        <p>
+        <p data-i18n="todayBody2">
           We welcome opportunities to collaborate with partners who value simplicity, inclusion,
           and joyful experiences.
         </p>
       </section>
 
-      <div class="footer">
+      <section class="link-row">
+        <p>
+          <a href="/contact" data-i18n="contactLink">Contact Us</a>
+        </p>
+      </section>
+
+      <div class="footer" data-i18n="footer">
         SairoLabs &mdash; Building what feels right, for everyone.
       </div>
     </div>
 
     <script>
-      const stamp = new Date().getFullYear();
-      const footer = document.querySelector(".footer");
-      footer.textContent = `SairoLabs © ${stamp} — Building what feels right, for everyone.`;
+      const messages = {
+        en: {
+          tagline:
+            "We are an app building company shaping calm, thoughtful software for everyday life.",
+          visionHeading: "Vision",
+          visionBody1:
+            "SairoLabs exists to build apps that feel human. We design for clarity, we engineer for trust, and we obsess over the small details that make technology feel effortless.",
+          visionBody2:
+            "Our work is guided by one simple belief: the best apps remove friction and give people back their time, attention, and confidence.",
+          deliverHeading: "What We Will Deliver",
+          todayHeading: "Today",
+          todayBody1:
+            "We are early in our journey and currently building our first products. While our portfolio is still taking shape, our commitment to thoughtful, well-crafted apps is already set in motion.",
+          todayBody2:
+            "We welcome opportunities to collaborate with partners who value simplicity, inclusion, and joyful experiences.",
+          contactLink: "Contact Us",
+          footer: `SairoLabs \u00A9 ${new Date().getFullYear()} - Building what feels right, for everyone.`
+        }
+      };
+
+      const locale =
+        navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "en";
+      const dictionary = messages[locale];
+
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        if (dictionary[key] && node.children.length === 0) {
+          node.textContent = dictionary[key];
+        }
+      });
     </script>
   </body>
 </html>
