@@ -140,26 +140,17 @@
       }
 
       .store-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-width: 160px;
-        padding: 14px 20px;
-        background: var(--surface);
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(8px);
+        display: inline-block;
       }
 
-      .store-badge span {
-        font-size: clamp(1.1rem, 1.35vw, 1.45rem);
-        font-weight: 700;
-        letter-spacing: -0.03em;
+      .store-badge[hidden] {
+        display: none;
       }
 
-      .store-icon {
-        flex: 0 0 auto;
+      .store-badge-image {
+        width: clamp(190px, 18vw, 220px);
+        height: auto;
+        filter: drop-shadow(0 18px 38px rgba(7, 25, 15, 0.14));
       }
 
       .showcase {
@@ -355,10 +346,11 @@
         }
 
         .store-badge {
-          min-width: min(100%, 214px);
-          width: min(100%, 214px);
-          padding-top: 13px;
-          padding-bottom: 13px;
+          width: min(100%, 220px);
+        }
+
+        .store-badge-image {
+          width: 100%;
         }
 
         .showcase {
@@ -452,41 +444,35 @@
 수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드</p>
 
             <div class="store-row reveal reveal-delay-3" role="group" aria-label="앱 스토어 목록" data-i18n-aria-label="storeGroupLabel">
-              <div class="store-badge">
-                <svg
-                  class="store-icon"
-                  width="24"
-                  height="29"
-                  viewBox="0 0 24 29"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M20.164 15.387c.028 2.504 2.174 3.337 2.198 3.347-.018.059-.343 1.177-1.128 2.335-.678 1.004-1.381 2.004-2.489 2.025-1.09.02-1.44-.645-2.688-.645-1.247 0-1.637.624-2.667.665-1.07.041-1.887-1.075-2.571-2.075-1.398-2.04-2.466-5.762-1.03-8.262.713-1.241 1.989-2.026 3.373-2.046 1.05-.02 2.04.707 2.688.707.647 0 1.859-.874 3.132-.746.533.022 2.03.215 2.992 1.624-.078.049-1.785 1.039-1.761 3.076ZM18.398 8.675c.569-.689.955-1.646.85-2.603-.82.033-1.814.546-2.401 1.235-.526.607-.989 1.58-.866 2.51.914.071 1.848-.465 2.417-1.142Z"
-                    fill="#0A0A0A"
-                  />
-                </svg>
-                <span data-i18n="appStore">App Store</span>
-              </div>
+              <a
+                class="store-badge"
+                data-store="ios"
+                href="https://apps.apple.com/us/app/baby-dashboard/id6758552709"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  class="store-badge-image"
+                  src="/res/download_on_appstore.svg"
+                  alt="App Store에서 다운로드"
+                  data-i18n-alt="appStoreBadgeAlt"
+                />
+              </a>
 
-              <div class="store-badge">
-                <svg
-                  class="store-icon"
-                  width="25"
-                  height="27"
-                  viewBox="0 0 25 27"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path d="M1.756 1.188 13.93 13.36 1.756 25.534A1.91 1.91 0 0 1 .9 23.934V2.788c0-.632.306-1.19.856-1.6Z" fill="#34A853" />
-                  <path d="m18.02 17.45-4.09-4.09L18.02 9.27l4.82 2.742c1.14.647 1.14 2.29 0 2.938l-4.82 2.5Z" fill="#FBBC04" />
-                  <path d="M1.756 1.188c.214-.16.474-.289.779-.362.444-.106.908-.044 1.316.186l14.17 8.258-4.09 4.09L1.756 1.188Z" fill="#EA4335" />
-                  <path d="m1.756 25.534 12.175-12.173 4.09 4.09-14.17 8.258a1.86 1.86 0 0 1-1.316.186 2.077 2.077 0 0 1-.78-.361Z" fill="#4285F4" />
-                </svg>
-                <span data-i18n="googlePlay">Google Play</span>
-              </div>
+              <a
+                class="store-badge"
+                data-store="android"
+                href="https://play.google.com/store/apps/details?id=com.sairolabs.babydashboard"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  class="store-badge-image"
+                  src="/res/download_on_playstore.png"
+                  alt="Google Play에서 다운로드"
+                  data-i18n-alt="playStoreBadgeAlt"
+                />
+              </a>
             </div>
           </main>
 
@@ -544,8 +530,8 @@
           heroTitle: "쌍둥이도 번갈아 볼 필요없이 한 화면에서 한 번에",
           bodyCopy:
             "회원가입 없이 초대 코드로 가족 모두!\n수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드",
-          appStore: "App Store",
-          googlePlay: "Google Play",
+          appStoreBadgeAlt: "App Store에서 다운로드",
+          playStoreBadgeAlt: "Google Play에서 다운로드",
           appIconAlt: "베이비대시보드 앱 아이콘",
           showcaseAlt: "베이비대시보드 앱 화면 미리보기",
           storeGroupLabel: "앱 스토어 목록",
@@ -559,6 +545,46 @@
         const language = (navigator.language || fallback).toLowerCase();
         const base = language.split("-")[0];
         return messages[language] ? language : messages[base] ? base : fallback;
+      }
+
+      function detectExactMobilePlatform() {
+        const uaDataPlatform =
+          navigator.userAgentData && typeof navigator.userAgentData.platform === "string"
+            ? navigator.userAgentData.platform
+            : "";
+
+        if (uaDataPlatform === "Android") {
+          return "android";
+        }
+
+        if (uaDataPlatform === "iOS") {
+          return "ios";
+        }
+
+        const userAgent = navigator.userAgent || "";
+
+        if (/Android/i.test(userAgent)) {
+          return "android";
+        }
+
+        if (/(iPhone|iPad|iPod)/i.test(userAgent)) {
+          return "ios";
+        }
+
+        return null;
+      }
+
+      function applyStoreBadgeVisibility() {
+        const platform = detectExactMobilePlatform();
+
+        if (!platform) {
+          return;
+        }
+
+        document.querySelectorAll("[data-store]").forEach((node) => {
+          const store = node.getAttribute("data-store");
+          node.hidden = store !== platform;
+        });
       }
 
       const locale = resolveLocale();
@@ -601,6 +627,8 @@
           node.setAttribute("content", dictionary[key]);
         }
       });
+
+      applyStoreBadgeVisibility();
     </script>
   </body>
 </html>
