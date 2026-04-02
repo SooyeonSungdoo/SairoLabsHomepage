@@ -18,6 +18,9 @@
         --hero-bottom: #28c8ba;
         --surface: rgba(255, 255, 255, 0.94);
         --shadow: 0 18px 38px rgba(7, 25, 15, 0.14);
+        --footer-height: 205px;
+        --footer-bottom-padding: 36px;
+        --showcase-overlap: 96px;
       }
 
       * {
@@ -52,12 +55,15 @@
       }
 
       .page {
+        position: relative;
+        isolation: isolate;
         min-height: 100vh;
         overflow-x: hidden;
       }
 
       .hero {
         position: relative;
+        z-index: 2;
         background:
           radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 45%),
           url("/res/Rectangle%201569.png") center top / cover no-repeat,
@@ -155,12 +161,16 @@
 
       .showcase {
         position: relative;
+        isolation: isolate;
+        z-index: 2;
         width: min(100%, 1240px);
-        margin: clamp(64px, 7vw, 96px) auto calc(clamp(76px, 9vw, 118px) * -1);
+        margin: clamp(64px, 7vw, 96px) auto calc(var(--showcase-overlap) * -1);
         padding: 0 clamp(16px, 4vw, 42px);
       }
 
       .device {
+        position: relative;
+        z-index: 3;
         width: min(100%, 1030px);
         margin: 0 auto;
         filter: drop-shadow(0 30px 42px rgba(0, 0, 0, 0.16));
@@ -168,20 +178,21 @@
 
       .baby {
         position: absolute;
-        z-index: 3;
+        z-index: 2;
+        pointer-events: none;
         animation: float 5.8s ease-in-out infinite;
       }
 
       .baby-left {
         width: clamp(74px, 9vw, 108px);
-        left: clamp(42px, 7vw, 86px);
-        top: 72px;
+        left: clamp(44px, 7vw, 88px);
+        top: 6px;
       }
 
       .baby-right {
         width: clamp(64px, 8vw, 92px);
-        right: clamp(26px, 5vw, 68px);
-        top: 188px;
+        right: clamp(24px, 5vw, 64px);
+        top: 104px;
         animation-delay: -2.4s;
       }
 
@@ -189,46 +200,51 @@
         position: absolute;
         z-index: 1;
         opacity: 0.92;
+        pointer-events: none;
         animation: pulse 5s ease-in-out infinite;
       }
 
       .bubble-a {
         width: clamp(48px, 6vw, 67px);
         left: clamp(60px, 8vw, 114px);
-        bottom: 186px;
+        bottom: 154px;
       }
 
       .bubble-b {
         width: clamp(18px, 3vw, 29px);
         left: clamp(118px, 12vw, 210px);
-        bottom: 244px;
+        bottom: 212px;
         animation-delay: -1s;
       }
 
       .bubble-c {
         width: clamp(14px, 2vw, 15px);
         right: clamp(142px, 14vw, 248px);
-        bottom: 286px;
+        bottom: 246px;
         animation-delay: -2.6s;
       }
 
       .bubble-d {
         width: clamp(20px, 3vw, 27px);
         right: clamp(106px, 11vw, 196px);
-        bottom: 244px;
+        bottom: 208px;
         animation-delay: -0.7s;
       }
 
       .site-footer {
+        position: relative;
+        z-index: 1;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
         gap: 8px;
         flex-wrap: wrap;
-        padding: clamp(122px, 15vw, 186px) 20px 34px;
+        min-height: var(--footer-height);
+        padding: 0 20px var(--footer-bottom-padding);
         text-align: center;
         color: var(--muted);
-        font-size: clamp(0.96rem, 1.05vw, 1.08rem);
+        font-size: 16px;
+        line-height: 21px;
         background: var(--bg);
       }
 
@@ -303,11 +319,11 @@
         }
 
         .baby-left {
-          top: 42px;
+          top: -4px;
         }
 
         .baby-right {
-          top: 146px;
+          top: 118px;
         }
       }
 
@@ -356,7 +372,6 @@
         .showcase {
           width: 100%;
           margin-top: 56px;
-          margin-bottom: -64px;
           padding: 0 12px;
         }
 
@@ -370,43 +385,49 @@
 
         .baby-left {
           width: 82px;
-          left: 16px;
-          top: 14px;
+          left: 8px;
+          top: -6px;
         }
 
         .baby-right {
           width: 72px;
-          right: 10px;
-          top: 86px;
+          right: 2px;
+          top: 66px;
         }
 
         .bubble-a {
           width: 62px;
           left: 18px;
-          bottom: 112px;
+          bottom: 104px;
         }
 
         .bubble-b {
           width: 24px;
           left: 72px;
-          bottom: 166px;
+          bottom: 146px;
         }
 
         .bubble-c {
-          right: 120px;
-          bottom: 230px;
+          right: 114px;
+          bottom: 188px;
         }
 
         .bubble-d {
           width: 26px;
-          right: 78px;
-          bottom: 202px;
+          right: 70px;
+          bottom: 162px;
         }
 
         .site-footer {
-          padding-top: 88px;
-          padding-bottom: 28px;
           font-size: 0.9rem;
+          line-height: 20px;
+        }
+      }
+
+      @media (min-width: 721px) {
+        :root {
+          --footer-height: 314px;
+          --showcase-overlap: 184px;
         }
       }
 
