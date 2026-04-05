@@ -28,20 +28,42 @@
     }
 
     html {
-      background: var(--hero-top);
+      background: var(--bg);
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       color: var(--ink);
-      background: var(--hero-top);
+      background: var(--bg);
       font-family:
         "Pretendard",
         "Avenir Next",
         "Noto Sans KR",
         "Apple SD Gothic Neo",
         sans-serif;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    body::before {
+      top: 0;
+      height: env(safe-area-inset-top);
+      background: var(--hero-top);
+    }
+
+    body::after {
+      bottom: 0;
+      height: env(safe-area-inset-bottom);
+      background: var(--bg);
     }
 
     img {
