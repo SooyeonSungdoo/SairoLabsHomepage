@@ -1,655 +1,544 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>베이비대시보드 | Sairo Labs</title>
-    <meta
-      name="description"
-      content="초대 코드로 가족 모두가 수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드 소개 페이지"
-      data-i18n-content="pageDescription"
-    />
-    <style>
-      :root {
-        --bg: #ffffff;
-        --ink: #05120a;
-        --muted: #5d5d5d;
-        --hero-top: #25da42;
-        --hero-bottom: #28c8ba;
-        --surface: rgba(255, 255, 255, 0.94);
-        --shadow: 0 18px 38px rgba(7, 25, 15, 0.14);
-        --footer-height: 205px;
-        --footer-bottom-padding: 36px;
-        --showcase-overlap: 96px;
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>베이비대시보드 | Sairo Labs</title>
+  <meta name="description" content="초대 코드로 가족 모두가 수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드 소개 페이지" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ink: #05120a;
+      --muted: #5d5d5d;
+      --hero-top: #25da42;
+      --hero-bottom: #28c8ba;
+      --surface: rgba(255, 255, 255, 0.94);
+      --shadow: 0 18px 38px rgba(7, 25, 15, 0.14);
+      --footer-height: 205px;
+      --footer-bottom-padding: 36px;
+      --showcase-overlap: 96px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--bg);
+      font-family:
+        "Pretendard",
+        "Avenir Next",
+        "Noto Sans KR",
+        "Apple SD Gothic Neo",
+        sans-serif;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 2;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 45%),
+        url("/res/Rectangle%201569.png") center top / cover no-repeat,
+        linear-gradient(180deg, var(--hero-top) 0%, var(--hero-bottom) 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 38%);
+      pointer-events: none;
+    }
+
+    .shell {
+      width: min(100%, 1380px);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding:
+        max(22px, env(safe-area-inset-top)) clamp(20px, 4vw, 40px) 0;
+    }
+
+    .eyebrow,
+    .brand {
+      color: #ffffff;
+      font-size: clamp(1.2rem, 1.45vw, 1.95rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: clamp(108px, 12vw, 168px) 20px 0;
+      text-align: center;
+    }
+
+    .app-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto clamp(30px, 3vw, 42px);
+      filter: drop-shadow(0 8px 20px rgba(4, 17, 10, 0.22));
+    }
+
+    .hero-title {
+      margin-top: 0px;
+      margin-left: 74px;
+      margin-right: 74px;
+      margin-bottom: 40px;
+      max-width: 940px;
+      font-size: 48px;
+      line-height: 1.28;
+      letter-spacing: -0.055em;
+      font-weight: bold;
+      word-break: keep-all;
+      white-space: pre-line;
+    }
+
+    .body-copy {
+      margin: 0 0 70px;
+      color: #ffffff;
+      font-size: 24px;
+      line-height: 1.5;
+      font-weight: 500;
+      word-break: keep-all;
+      white-space: pre-line;
+    }
+
+    .store-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: clamp(42px, 5vw, 56px);
+      flex-wrap: wrap;
+    }
+
+    .store-badge {
+      display: inline-block;
+    }
+
+    .store-badge[hidden] {
+      display: none;
+    }
+
+    .store-badge-image {
+      width: clamp(190px, 18vw, 220px);
+      height: auto;
+      filter: drop-shadow(0 18px 38px rgba(7, 25, 15, 0.14));
+    }
+
+    .showcase {
+      position: relative;
+      isolation: isolate;
+      z-index: 2;
+      width: min(100%, 1240px);
+      margin: clamp(64px, 7vw, 96px) auto calc(var(--showcase-overlap) * -1);
+      padding: 0 clamp(16px, 4vw, 42px);
+    }
+
+    .device {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 1030px);
+      margin: 0 auto;
+      filter: drop-shadow(0 30px 42px rgba(0, 0, 0, 0.16));
+    }
+
+    .baby {
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+      animation: float 5.8s ease-in-out infinite;
+    }
+
+    .baby-left {
+      width: clamp(74px, 9vw, 108px);
+      left: clamp(44px, 7vw, 88px);
+      top: 6px;
+    }
+
+    .baby-right {
+      width: clamp(64px, 8vw, 92px);
+      right: clamp(24px, 5vw, 64px);
+      top: 104px;
+      animation-delay: -2.4s;
+    }
+
+    .bubble {
+      position: absolute;
+      z-index: 1;
+      opacity: 0.92;
+      pointer-events: none;
+      animation: pulse 5s ease-in-out infinite;
+    }
+
+    .bubble-a {
+      width: clamp(48px, 6vw, 67px);
+      left: clamp(60px, 8vw, 114px);
+      bottom: 154px;
+    }
+
+    .bubble-b {
+      width: clamp(18px, 3vw, 29px);
+      left: clamp(118px, 12vw, 210px);
+      bottom: 212px;
+      animation-delay: -1s;
+    }
+
+    .bubble-c {
+      width: clamp(14px, 2vw, 15px);
+      right: clamp(142px, 14vw, 248px);
+      bottom: 246px;
+      animation-delay: -2.6s;
+    }
+
+    .bubble-d {
+      width: clamp(20px, 3vw, 27px);
+      right: clamp(106px, 11vw, 196px);
+      bottom: 208px;
+      animation-delay: -0.7s;
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: var(--footer-height);
+      padding: 0 20px var(--footer-bottom-padding);
+      text-align: center;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 21px;
+      background: var(--bg);
+    }
+
+    .site-footer strong {
+      color: #676767;
+      font-weight: 800;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: reveal 720ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+
+    .reveal-delay-1 {
+      animation-delay: 90ms;
+    }
+
+    .reveal-delay-2 {
+      animation-delay: 180ms;
+    }
+
+    .reveal-delay-3 {
+      animation-delay: 270ms;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
       }
 
-      * {
-        box-sizing: border-box;
+      50% {
+        transform: translate3d(0, -10px, 0) rotate(2deg);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
       }
 
-      html {
-        background: var(--bg);
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
       }
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        color: var(--ink);
-        background: var(--bg);
-        font-family:
-          "Pretendard",
-          "Avenir Next",
-          "Noto Sans KR",
-          "Apple SD Gothic Neo",
-          sans-serif;
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-copy {
+        max-width: 860px;
       }
 
-      img {
-        display: block;
-        max-width: 100%;
+      .hero-title {
+        max-width: 760px;
       }
 
-      a {
-        color: inherit;
-        text-decoration: none;
+      .showcase {
+        margin-top: 72px;
       }
 
-      .page {
-        position: relative;
-        isolation: isolate;
-        min-height: 100vh;
-        overflow-x: hidden;
+      .baby-left {
+        top: -4px;
       }
 
-      .hero {
-        position: relative;
-        z-index: 2;
-        background:
-          radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 45%),
-          url("/res/Rectangle%201569.png") center top / cover no-repeat,
-          linear-gradient(180deg, var(--hero-top) 0%, var(--hero-bottom) 100%);
+      .baby-right {
+        top: 118px;
       }
+    }
 
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 38%);
-        pointer-events: none;
-      }
-
-      .shell {
-        width: min(100%, 1380px);
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-      }
-
+    @media (max-width: 720px) {
       .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding:
-          max(22px, env(safe-area-inset-top)) clamp(20px, 4vw, 40px) 0;
+        padding-left: 18px;
+        padding-right: 18px;
       }
 
       .eyebrow,
       .brand {
-        color: #ffffff;
-        font-size: clamp(1.2rem, 1.45vw, 1.95rem);
-        font-weight: 800;
-        letter-spacing: -0.03em;
+        font-size: 1rem;
       }
 
       .hero-copy {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: clamp(108px, 12vw, 168px) 20px 0;
-        text-align: center;
-      }
-
-      .app-icon {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto clamp(30px, 3vw, 42px);
-        filter: drop-shadow(0 8px 20px rgba(4, 17, 10, 0.22));
+        padding-top: 72px;
       }
 
       .hero-title {
-        margin: 0 auto;
-        max-width: 940px;
-        font-size: 48px;
-        line-height: 1.28;
-        letter-spacing: -0.055em;
-        font-weight: bold;
-        word-break: keep-all;
+        max-width: 360px;
+        font-size: 32px;
+        line-height: 1.22;
       }
 
       .body-copy {
-        margin: clamp(32px, 4vw, 44px) 0 0;
-        color: #ffffff;
-        font-size: 24px;
-        line-height: 1.5;
-        font-weight: 500;
-        word-break: keep-all;
-        white-space: pre-line;
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 18px;
+        line-height: 1.55;
       }
 
       .store-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        margin-top: clamp(42px, 5vw, 56px);
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 20px;
       }
 
       .store-badge {
-        display: inline-block;
-      }
-
-      .store-badge[hidden] {
-        display: none;
+        width: min(100%, 220px);
       }
 
       .store-badge-image {
-        width: clamp(190px, 18vw, 220px);
-        height: auto;
-        filter: drop-shadow(0 18px 38px rgba(7, 25, 15, 0.14));
+        width: 100%;
       }
 
       .showcase {
-        position: relative;
-        isolation: isolate;
-        z-index: 2;
-        width: min(100%, 1240px);
-        margin: clamp(64px, 7vw, 96px) auto calc(var(--showcase-overlap) * -1);
-        padding: 0 clamp(16px, 4vw, 42px);
+        width: 100%;
+        margin-top: 56px;
+        padding: 0 12px;
       }
 
       .device {
-        position: relative;
-        z-index: 3;
-        width: min(100%, 1030px);
-        margin: 0 auto;
-        filter: drop-shadow(0 30px 42px rgba(0, 0, 0, 0.16));
-      }
-
-      .baby {
-        position: absolute;
-        z-index: 2;
-        pointer-events: none;
-        animation: float 5.8s ease-in-out infinite;
+        width: min(460px, calc(100% + 34px));
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        transform: translateX(4px);
       }
 
       .baby-left {
-        width: clamp(74px, 9vw, 108px);
-        left: clamp(44px, 7vw, 88px);
-        top: 6px;
+        width: 82px;
+        left: 8px;
+        top: -6px;
       }
 
       .baby-right {
-        width: clamp(64px, 8vw, 92px);
-        right: clamp(24px, 5vw, 64px);
-        top: 104px;
-        animation-delay: -2.4s;
-      }
-
-      .bubble {
-        position: absolute;
-        z-index: 1;
-        opacity: 0.92;
-        pointer-events: none;
-        animation: pulse 5s ease-in-out infinite;
+        width: 72px;
+        right: 2px;
+        top: 66px;
       }
 
       .bubble-a {
-        width: clamp(48px, 6vw, 67px);
-        left: clamp(60px, 8vw, 114px);
-        bottom: 154px;
+        width: 62px;
+        left: 18px;
+        bottom: 104px;
       }
 
       .bubble-b {
-        width: clamp(18px, 3vw, 29px);
-        left: clamp(118px, 12vw, 210px);
-        bottom: 212px;
-        animation-delay: -1s;
+        width: 24px;
+        left: 72px;
+        bottom: 146px;
       }
 
       .bubble-c {
-        width: clamp(14px, 2vw, 15px);
-        right: clamp(142px, 14vw, 248px);
-        bottom: 246px;
-        animation-delay: -2.6s;
+        right: 114px;
+        bottom: 188px;
       }
 
       .bubble-d {
-        width: clamp(20px, 3vw, 27px);
-        right: clamp(106px, 11vw, 196px);
-        bottom: 208px;
-        animation-delay: -0.7s;
+        width: 26px;
+        right: 70px;
+        bottom: 162px;
       }
 
       .site-footer {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        gap: 8px;
-        flex-wrap: wrap;
-        min-height: var(--footer-height);
-        padding: 0 20px var(--footer-bottom-padding);
-        text-align: center;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 21px;
-        background: var(--bg);
+        font-size: 0.9rem;
+        line-height: 20px;
       }
+    }
 
-      .site-footer strong {
-        color: #676767;
-        font-weight: 800;
+    @media (min-width: 721px) {
+      :root {
+        --footer-height: 314px;
+        --showcase-overlap: 184px;
       }
+    }
 
+    @media (prefers-reduced-motion: reduce) {
+
+      .baby,
+      .bubble,
       .reveal {
-        opacity: 0;
-        transform: translateY(18px);
-        animation: reveal 720ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        animation: none;
+        opacity: 1;
+        transform: none;
       }
+    }
+  </style>
+</head>
 
-      .reveal-delay-1 {
-        animation-delay: 90ms;
-      }
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="shell">
+        <header class="topbar">
+          <div class="eyebrow">베이비대시보드</div>
+          <a class="brand" href="/">Sairo Labs</a>
+        </header>
 
-      .reveal-delay-2 {
-        animation-delay: 180ms;
-      }
+        <main class="hero-copy">
+          <img class="app-icon reveal" src="/res/appIcon.png" alt="베이비대시보드 앱 아이콘" />
+          <h1 class="hero-title reveal reveal-delay-1">쌍둥이도
+            번갈아 볼 필요없이
+            한 화면에서 한 번에</h1>
+          <p class="body-copy reveal reveal-delay-2">회원가입 없이 초대 코드로 가족 모두!
+            수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드</p>
 
-      .reveal-delay-3 {
-        animation-delay: 270ms;
-      }
+          <div class="store-row reveal reveal-delay-3" role="group" aria-label="앱 스토어 목록">
+            <a class="store-badge" data-store="ios" href="https://apps.apple.com/us/app/baby-dashboard/id6758552709"
+              target="_blank" rel="noreferrer">
+              <img class="store-badge-image" src="/res/download_on_appstore.png" alt="App Store에서 다운로드" />
+            </a>
 
-      @keyframes float {
-        0%,
-        100% {
-          transform: translate3d(0, 0, 0) rotate(0deg);
-        }
-
-        50% {
-          transform: translate3d(0, -10px, 0) rotate(2deg);
-        }
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-
-        50% {
-          transform: scale(1.08);
-        }
-      }
-
-      @keyframes reveal {
-        from {
-          opacity: 0;
-          transform: translateY(18px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @media (max-width: 1080px) {
-        .hero-copy {
-          max-width: 860px;
-        }
-
-        .hero-title {
-          max-width: 760px;
-        }
-
-        .showcase {
-          margin-top: 72px;
-        }
-
-        .baby-left {
-          top: -4px;
-        }
-
-        .baby-right {
-          top: 118px;
-        }
-      }
-
-      @media (max-width: 720px) {
-        .topbar {
-          padding-left: 18px;
-          padding-right: 18px;
-        }
-
-        .eyebrow,
-        .brand {
-          font-size: 1rem;
-        }
-
-        .hero-copy {
-          padding-top: 72px;
-        }
-
-        .hero-title {
-          max-width: 360px;
-          font-size: 32px;
-          line-height: 1.22;
-        }
-
-        .body-copy {
-          max-width: 340px;
-          margin-left: auto;
-          margin-right: auto;
-          font-size: 18px;
-          line-height: 1.55;
-        }
-
-        .store-row {
-          flex-direction: column;
-          gap: 18px;
-        }
-
-        .store-badge {
-          width: min(100%, 220px);
-        }
-
-        .store-badge-image {
-          width: 100%;
-        }
-
-        .showcase {
-          width: 100%;
-          margin-top: 56px;
-          padding: 0 12px;
-        }
-
-        .device {
-          width: min(460px, calc(100% + 34px));
-          max-width: none;
-          margin-left: auto;
-          margin-right: auto;
-          transform: translateX(4px);
-        }
-
-        .baby-left {
-          width: 82px;
-          left: 8px;
-          top: -6px;
-        }
-
-        .baby-right {
-          width: 72px;
-          right: 2px;
-          top: 66px;
-        }
-
-        .bubble-a {
-          width: 62px;
-          left: 18px;
-          bottom: 104px;
-        }
-
-        .bubble-b {
-          width: 24px;
-          left: 72px;
-          bottom: 146px;
-        }
-
-        .bubble-c {
-          right: 114px;
-          bottom: 188px;
-        }
-
-        .bubble-d {
-          width: 26px;
-          right: 70px;
-          bottom: 162px;
-        }
-
-        .site-footer {
-          font-size: 0.9rem;
-          line-height: 20px;
-        }
-      }
-
-      @media (min-width: 721px) {
-        :root {
-          --footer-height: 314px;
-          --showcase-overlap: 184px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .baby,
-        .bubble,
-        .reveal {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <section class="hero">
-        <div class="shell">
-          <header class="topbar">
-            <div class="eyebrow" data-i18n="navLabel">베이비대시보드</div>
-            <a class="brand" href="/" data-i18n="brandLabel">Sairo Labs</a>
-          </header>
-
-          <main class="hero-copy">
-            <img
-              class="app-icon reveal"
-              src="/res/appIcon.png"
-              alt="베이비대시보드 앱 아이콘"
-              data-i18n-alt="appIconAlt"
-            />
-            <h1 class="hero-title reveal reveal-delay-1" data-i18n="heroTitle">
-              쌍둥이도 번갈아 볼 필요없이 한 화면에서 한 번에
-            </h1>
-            <p class="body-copy reveal reveal-delay-2" data-i18n="bodyCopy">회원가입 없이 초대 코드로 가족 모두!
-수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드</p>
-
-            <div class="store-row reveal reveal-delay-3" role="group" aria-label="앱 스토어 목록" data-i18n-aria-label="storeGroupLabel">
-              <a
-                class="store-badge"
-                data-store="ios"
-                href="https://apps.apple.com/us/app/baby-dashboard/id6758552709"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img
-                  class="store-badge-image"
-                  src="/res/download_on_appstore.svg"
-                  alt="App Store에서 다운로드"
-                  data-i18n-alt="appStoreBadgeAlt"
-                />
-              </a>
-
-              <a
-                class="store-badge"
-                data-store="android"
-                href="https://play.google.com/store/apps/details?id=com.sairolabs.babydashboard"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img
-                  class="store-badge-image"
-                  src="/res/download_on_playstore.png"
-                  alt="Google Play에서 다운로드"
-                  data-i18n-alt="playStoreBadgeAlt"
-                />
-              </a>
-            </div>
-          </main>
-
-          <div class="showcase">
-            <img
-              class="bubble bubble-a"
-              src="/res/Ellipse%204.png"
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              class="bubble bubble-b"
-              src="/res/Ellipse%207.png"
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              class="bubble bubble-c"
-              src="/res/Ellipse%2018.png"
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              class="bubble bubble-d"
-              src="/res/Ellipse%2016.png"
-              alt=""
-              aria-hidden="true"
-            />
-            <img class="baby baby-left" src="/res/baby2.png" alt="" aria-hidden="true" />
-            <img class="baby baby-right" src="/res/baby1.png" alt="" aria-hidden="true" />
-            <img
-              class="device reveal reveal-delay-3"
-              src="/res/ondevice-example.png"
-              alt="베이비대시보드 앱 화면 미리보기"
-              data-i18n-alt="showcaseAlt"
-            />
+            <a class="store-badge" data-store="android"
+              href="https://play.google.com/store/apps/details?id=com.sairolabs.babydashboard" target="_blank"
+              rel="noreferrer">
+              <img class="store-badge-image" src="/res/download_on_playstore.png" alt="Google Play에서 다운로드" />
+            </a>
           </div>
+        </main>
+
+        <div class="showcase">
+          <img class="bubble bubble-a" src="/res/Ellipse%204.png" alt="" aria-hidden="true" />
+          <img class="bubble bubble-b" src="/res/Ellipse%207.png" alt="" aria-hidden="true" />
+          <img class="bubble bubble-c" src="/res/Ellipse%2018.png" alt="" aria-hidden="true" />
+          <img class="bubble bubble-d" src="/res/Ellipse%2016.png" alt="" aria-hidden="true" />
+          <img class="baby baby-left" src="/res/baby2.png" alt="" aria-hidden="true" />
+          <img class="baby baby-right" src="/res/baby1.png" alt="" aria-hidden="true" />
+          <img class="device reveal reveal-delay-3" src="/res/ondevice-example.png" alt="베이비대시보드 앱 화면 미리보기" />
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer class="site-footer">
-        <strong data-i18n="footerBrand">사이로랩스</strong>
-        <span data-i18n="footerText">© Sairo Labs. All rights reserved.</span>
-      </footer>
-    </div>
+    <footer class="site-footer">
+      <strong>사이로랩스</strong>
+      <span>© Sairo Labs. All rights reserved.</span>
+    </footer>
+  </div>
 
-    <script>
-      const messages = {
-        ko: {
-          pageTitle: "베이비대시보드 | Sairo Labs",
-          pageDescription:
-            "초대 코드로 가족 모두가 수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드 소개 페이지",
-          navLabel: "베이비대시보드",
-          brandLabel: "Sairo Labs",
-          heroTitle: "쌍둥이도 번갈아 볼 필요없이 한 화면에서 한 번에",
-          bodyCopy:
-            "회원가입 없이 초대 코드로 가족 모두!\n수유와 기저귀, 수면 기록을 한눈에 확인하는 베이비대시보드",
-          appStoreBadgeAlt: "App Store에서 다운로드",
-          playStoreBadgeAlt: "Google Play에서 다운로드",
-          appIconAlt: "베이비대시보드 앱 아이콘",
-          showcaseAlt: "베이비대시보드 앱 화면 미리보기",
-          storeGroupLabel: "앱 스토어 목록",
-          footerBrand: "사이로랩스",
-          footerText: "\u00A9 Sairo Labs. All rights reserved."
-        }
-      };
+  <script>
+    function detectExactMobilePlatform() {
+      const uaDataPlatform =
+        navigator.userAgentData && typeof navigator.userAgentData.platform === "string"
+          ? navigator.userAgentData.platform
+          : "";
 
-      function resolveLocale() {
-        const fallback = "ko";
-        const language = (navigator.language || fallback).toLowerCase();
-        const base = language.split("-")[0];
-        return messages[language] ? language : messages[base] ? base : fallback;
+      if (uaDataPlatform === "Android") {
+        return "android";
       }
 
-      function detectExactMobilePlatform() {
-        const uaDataPlatform =
-          navigator.userAgentData && typeof navigator.userAgentData.platform === "string"
-            ? navigator.userAgentData.platform
-            : "";
-
-        if (uaDataPlatform === "Android") {
-          return "android";
-        }
-
-        if (uaDataPlatform === "iOS") {
-          return "ios";
-        }
-
-        const userAgent = navigator.userAgent || "";
-
-        if (/Android/i.test(userAgent)) {
-          return "android";
-        }
-
-        if (/(iPhone|iPad|iPod)/i.test(userAgent)) {
-          return "ios";
-        }
-
-        return null;
+      if (uaDataPlatform === "iOS") {
+        return "ios";
       }
 
-      function applyStoreBadgeVisibility() {
-        const platform = detectExactMobilePlatform();
+      const userAgent = navigator.userAgent || "";
 
-        if (!platform) {
-          return;
-        }
-
-        document.querySelectorAll("[data-store]").forEach((node) => {
-          const store = node.getAttribute("data-store");
-          node.hidden = store !== platform;
-        });
+      if (/Android/i.test(userAgent)) {
+        return "android";
       }
 
-      const locale = resolveLocale();
-      const dictionary = messages[locale];
-
-      document.documentElement.lang = locale;
-
-      if (dictionary.pageTitle) {
-        document.title = dictionary.pageTitle;
+      if (/(iPhone|iPad|iPod)/i.test(userAgent)) {
+        return "ios";
       }
 
-      document.querySelectorAll("[data-i18n]").forEach((node) => {
-        const key = node.getAttribute("data-i18n");
+      return null;
+    }
 
-        if (dictionary[key] && node.children.length === 0) {
-          node.textContent = dictionary[key];
-        }
+    function applyStoreBadgeVisibility() {
+      const platform = detectExactMobilePlatform();
+
+      if (!platform) {
+        return;
+      }
+
+      document.querySelectorAll("[data-store]").forEach((node) => {
+        const store = node.getAttribute("data-store");
+        node.hidden = store !== platform;
       });
+    }
 
-      document.querySelectorAll("[data-i18n-alt]").forEach((node) => {
-        const key = node.getAttribute("data-i18n-alt");
+    applyStoreBadgeVisibility();
+  </script>
+</body>
 
-        if (dictionary[key]) {
-          node.setAttribute("alt", dictionary[key]);
-        }
-      });
-
-      document.querySelectorAll("[data-i18n-aria-label]").forEach((node) => {
-        const key = node.getAttribute("data-i18n-aria-label");
-
-        if (dictionary[key]) {
-          node.setAttribute("aria-label", dictionary[key]);
-        }
-      });
-
-      document.querySelectorAll("[data-i18n-content]").forEach((node) => {
-        const key = node.getAttribute("data-i18n-content");
-
-        if (dictionary[key]) {
-          node.setAttribute("content", dictionary[key]);
-        }
-      });
-
-      applyStoreBadgeVisibility();
-    </script>
-  </body>
 </html>
