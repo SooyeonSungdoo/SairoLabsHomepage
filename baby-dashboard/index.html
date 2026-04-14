@@ -28,42 +28,36 @@
     }
 
     html {
-      background: var(--bg);
+      background-color: var(--hero-top);
+      background-image:
+        linear-gradient(
+          180deg,
+          var(--hero-top) 0%,
+          var(--hero-bottom) calc(100% - (var(--footer-height) + env(safe-area-inset-bottom))),
+          var(--bg) calc(100% - (var(--footer-height) + env(safe-area-inset-bottom))),
+          var(--bg) 100%
+        );
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       color: var(--ink);
-      background: var(--bg);
+      background-color: var(--hero-top);
+      background-image:
+        linear-gradient(
+          180deg,
+          var(--hero-top) 0%,
+          var(--hero-bottom) calc(100% - (var(--footer-height) + env(safe-area-inset-bottom))),
+          var(--bg) calc(100% - (var(--footer-height) + env(safe-area-inset-bottom))),
+          var(--bg) 100%
+        );
       font-family:
         "Pretendard",
         "Avenir Next",
         "Noto Sans KR",
         "Apple SD Gothic Neo",
         sans-serif;
-    }
-
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      left: 0;
-      right: 0;
-      pointer-events: none;
-      z-index: 999;
-    }
-
-    body::before {
-      top: 0;
-      height: env(safe-area-inset-top);
-      background: var(--hero-top);
-    }
-
-    body::after {
-      bottom: 0;
-      height: env(safe-area-inset-bottom);
-      background: var(--bg);
     }
 
     img {
@@ -300,8 +294,8 @@
       align-items: flex-end;
       gap: 8px;
       flex-wrap: wrap;
-      min-height: var(--footer-height);
-      padding: 0 20px var(--footer-bottom-padding);
+      min-height: calc(var(--footer-height) + env(safe-area-inset-bottom));
+      padding: 0 20px calc(var(--footer-bottom-padding) + env(safe-area-inset-bottom));
       text-align: center;
       color: var(--muted);
       font-size: 16px;
@@ -630,9 +624,29 @@
       requestAnimationFrame(() => alignShowcase(0));
     }
 
+    function syncSafariChromeBackdrop() {
+      const footer = document.querySelector(".site-footer");
+
+      if (!footer) {
+        return;
+      }
+
+      const rootStyles = getComputedStyle(document.documentElement);
+      const heroTop = rootStyles.getPropertyValue("--hero-top").trim() || "#25da42";
+      const background = rootStyles.getPropertyValue("--bg").trim() || "#ffffff";
+      const footerTop = footer.getBoundingClientRect().top;
+      const nextColor = footerTop <= window.innerHeight ? background : heroTop;
+
+      document.body.style.backgroundColor = nextColor;
+    }
+
     applyStoreBadgeVisibility();
     syncMobileShowcaseSpacing();
+
     window.addEventListener("load", syncMobileShowcaseSpacing);
+    window.addEventListener("load", syncSafariChromeBackdrop);
+    window.addEventListener("scroll", syncSafariChromeBackdrop, { passive: true });
+    window.addEventListener("resize", syncSafariChromeBackdrop);
     window.addEventListener("resize", syncMobileShowcaseSpacing);
   </script>
 </body>
