@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <script>
+      const appStoreUrl = "https://apps.apple.com/us/app/baby-dashboard/id6758552709";
+      const playStoreUrl = "https://play.google.com/store/apps/details?id=com.sairolabs.babydashboard";
+      const fallbackUrl = "/baby-dashboard/";
+
+      function detectExactMobilePlatform() {
+        const uaDataPlatform =
+          navigator.userAgentData && typeof navigator.userAgentData.platform === "string"
+            ? navigator.userAgentData.platform
+            : "";
+
+        if (uaDataPlatform === "Android") {
+          return "android";
+        }
+
+        if (uaDataPlatform === "iOS") {
+          return "ios";
+        }
+
+        const userAgent = navigator.userAgent || "";
+
+        if (/Android/i.test(userAgent)) {
+          return "android";
+        }
+
+        if (/(iPhone|iPad|iPod)/i.test(userAgent)) {
+          return "ios";
+        }
+
+        return null;
+      }
+
+      const platform = detectExactMobilePlatform();
+      const redirectUrl =
+        platform === "ios" ? appStoreUrl : platform === "android" ? playStoreUrl : fallbackUrl;
+
+      window.location.replace(redirectUrl);
+    </script>
+  </head>
+  <body></body>
+</html>
