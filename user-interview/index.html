@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SairoLabs | 사용자 인터뷰</title>
+    <meta
+      name="description"
+      content="베이비대시보드 앱스토어 페이지를 본 뒤 사용자 인터뷰 음성을 녹음하고 업로드합니다."
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #0b0b0b;
+        --muted: #454545;
+        --line: #d9d9d9;
+        --accent: #0b0b0b;
+        --success: #0f7a3a;
+        --danger: #b3261e;
+        --surface: #f7f7f7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 64px 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 760px;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        padding: 48px 48px 56px;
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2.2rem, 3vw, 3rem);
+        letter-spacing: 0.04em;
+      }
+
+      p {
+        margin: 0 0 14px;
+        line-height: 1.8;
+      }
+
+      a {
+        color: var(--accent);
+        overflow-wrap: anywhere;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button,
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: var(--bg);
+        padding: 11px 18px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      button:disabled {
+        border-color: var(--line);
+        background: var(--surface);
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+
+      .delayed-cta {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .delayed-cta.visible {
+        animation: ctaFadeIn 2s ease-out forwards;
+        pointer-events: auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      input {
+        width: 100%;
+        min-height: 48px;
+        border: 1px solid var(--line);
+        color: var(--text);
+        background: var(--bg);
+        padding: 11px 12px;
+      }
+
+      input:disabled {
+        color: var(--muted);
+        background: var(--surface);
+      }
+
+      input:focus,
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid rgba(11, 11, 11, 0.22);
+        outline-offset: 2px;
+      }
+
+      .tagline,
+      .muted {
+        color: var(--muted);
+      }
+
+      .step-shell {
+        position: relative;
+        min-height: 320px;
+      }
+
+      .step-panel {
+        display: none;
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      .step-panel.active {
+        display: block;
+        animation: stepIn 260ms ease-out forwards;
+      }
+
+      .step-eyebrow {
+        margin-bottom: 18px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .step-copy {
+        margin-bottom: 28px;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        font-weight: 700;
+        line-height: 1.55;
+      }
+
+      .guide-copy {
+        margin-bottom: 26px;
+        font-size: 1.1rem;
+      }
+
+      .field-block {
+        margin: 24px 0 18px;
+      }
+
+      .field-error {
+        min-height: 1.5em;
+        margin-top: 8px;
+        color: var(--danger);
+        font-size: 0.95rem;
+      }
+
+      .status {
+        min-height: 1.6em;
+        margin-top: 16px;
+        font-weight: 700;
+      }
+
+      .status-error {
+        color: var(--danger);
+      }
+
+      .status-success {
+        color: var(--success);
+      }
+
+      .recording-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 20px;
+        color: var(--muted);
+      }
+
+      .recording-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+
+      .recording-dot.active {
+        background: var(--danger);
+      }
+
+      .footer {
+        margin-top: 36px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      @keyframes stepIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes ctaFadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .step-panel.active,
+        .delayed-cta.visible {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 32px 16px;
+        }
+
+        .container {
+          padding: 32px 24px 40px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        button,
+        .button-link {
+          width: 100%;
+        }
+
+        .step-shell {
+          min-height: 360px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 data-i18n="pageTitle">사용자 인터뷰</h1>
+        <p class="tagline" data-i18n="tagline">
+          베이비대시보드 스토어 페이지를 둘러보며 생각을 음성으로 남겨주세요.
+        </p>
+      </header>
+
+      <main class="step-shell" aria-live="polite">
+        <section id="step1" class="step-panel active" data-step="1">
+          <div class="step-eyebrow" data-i18n="step1Eyebrow">Step 1</div>
+          <p class="step-copy" data-i18n="step1Copy">
+            먼저 인터뷰를 할 수 있도록, 마이크 사용을 허락해주세요.
+          </p>
+          <button id="permissionButton" type="button" data-i18n="allowMicrophone">허락하기</button>
+          <p id="step1Status" class="status" aria-live="polite"></p>
+        </section>
+
+        <section id="step2" class="step-panel" data-step="2">
+          <div class="step-eyebrow" data-i18n="step2Eyebrow">Step 2</div>
+          <p class="step-copy" data-i18n="step2Thanks">감사합니다.</p>
+          <div class="guide-copy">
+            <p data-i18n="step2Intro">이제 베이비대시보드의 스토어 페이지로 이동할거에요.</p>
+            <p data-i18n="step2Guide">
+              그 페이지를 보시고 보이는 내용, 떠오르는 생각들을 생각나는대로 말씀해주세요.
+              완결된 문장을 말씀해주실 필요는 없습니다. 두서가 없어도 괜찮아요.
+            </p>
+          </div>
+          <button id="understoodButton" class="delayed-cta" type="button" data-i18n="understood">
+            이해했습니다
+          </button>
+        </section>
+
+        <section id="step3" class="step-panel" data-step="3">
+          <div class="step-eyebrow" data-i18n="step3Eyebrow">Step 3</div>
+          <div class="guide-copy">
+            <p data-i18n="step3Copy">
+              아래 버튼을 누르시면 베이비대시보드 스토어 페이지로 이동합니다.
+            </p>
+            <p data-i18n="step3Return">
+              스토어를 둘러보시고 난 뒤에는, 여기로 다시 돌아와 주셔서 녹음을 제출해주세요.
+            </p>
+          </div>
+          <a
+            id="storeLink"
+            class="button-link delayed-cta"
+            href="https://sairolabs.com/baby-dashboard/store-redirection"
+            target="_blank"
+            rel="noreferrer"
+            data-i18n="goStore"
+          >
+            스토어로 이동
+          </a>
+        </section>
+
+        <section id="step4" class="step-panel" data-step="4">
+          <div class="step-eyebrow" data-i18n="step4Eyebrow">Step 4</div>
+          <p class="step-copy" data-i18n="step4Thanks">감사합니다.</p>
+          <div class="guide-copy">
+            <p data-i18n="step4EmailGuide">
+              기프티콘을 받으실 이메일 주소를 적어주시고, 제출 버튼을 눌러주세요.
+            </p>
+            <p data-i18n="step4FinalThanks">
+              베이비대시보드 인터뷰에 참여해주셔서 정말 감사드립니다!
+            </p>
+          </div>
+          <div class="field-block">
+            <label for="email" data-i18n="emailCaption">기프티콘을 받을 이메일 주소를 적어주세요</label>
+            <input
+              id="email"
+              name="email"
+              type="text"
+              autocomplete="email"
+              inputmode="email"
+              data-i18n-placeholder="emailPlaceholder"
+              placeholder="name@example.com"
+              required
+            />
+            <p id="emailError" class="field-error" aria-live="polite"></p>
+          </div>
+          <button id="submitButton" type="button" data-i18n="submitRecording" disabled>
+            제출하기
+          </button>
+          <p id="submitStatus" class="status" aria-live="polite"></p>
+          <div class="recording-meta">
+            <span id="recordingDot" class="recording-dot active" aria-hidden="true"></span>
+            <span id="recordingState" data-i18n="stateRecording">녹음 중</span>
+          </div>
+        </section>
+      </main>
+
+      <div class="footer" data-i18n="footer">
+        사이로랩스 &copy; 2026 - 모두에게 자연스러운 앱을 만듭니다.
+      </div>
+    </div>
+
+    <script>
+      const messages = {
+        ko: {
+          pageTitle: "사용자 인터뷰",
+          documentTitle: "SairoLabs | 사용자 인터뷰",
+          metaDescription:
+            "베이비대시보드 앱스토어 페이지를 본 뒤 사용자 인터뷰 음성을 녹음하고 업로드합니다.",
+          tagline: "베이비대시보드 스토어 페이지를 둘러보며 생각을 음성으로 남겨주세요.",
+          step1Eyebrow: "Step 1",
+          step1Copy: "먼저 인터뷰를 할 수 있도록, 마이크 사용을 허락해주세요.",
+          step2Eyebrow: "Step 2",
+          step2Thanks: "감사합니다.",
+          step2Intro: "이제 베이비대시보드의 스토어 페이지로 이동할거에요.",
+          step2Guide:
+            "그 페이지를 보시고 보이는 내용, 떠오르는 생각들을 생각나는대로 말씀해주세요. 완결된 문장을 말씀해주실 필요는 없습니다. 두서가 없어도 괜찮아요.",
+          step3Eyebrow: "Step 3",
+          step3Copy: "아래 버튼을 누르시면 베이비대시보드 스토어 페이지로 이동합니다.",
+          step3Return:
+            "스토어를 둘러보시고 난 뒤에는, 여기로 다시 돌아와 주셔서 녹음을 제출해주세요.",
+          step4Eyebrow: "Step 4",
+          step4Thanks: "감사합니다.",
+          step4EmailGuide: "기프티콘을 받으실 이메일 주소를 적어주시고, 제출 버튼을 눌러주세요.",
+          step4FinalThanks: "베이비대시보드 인터뷰에 참여해주셔서 정말 감사드립니다!",
+          emailCaption: "기프티콘을 받을 이메일 주소를 적어주세요",
+          emailPlaceholder: "name@example.com",
+          emailRequired: "제출하기 전에 이메일 주소를 입력해주세요.",
+          emailInvalid: "올바른 이메일 주소를 입력해주세요.",
+          allowMicrophone: "허락하기",
+          understood: "이해했습니다",
+          goStore: "스토어로 이동",
+          stateRecording: "녹음 중",
+          stateStopping: "녹음을 저장하는 중...",
+          stateUnsupported: "이 브라우저에서는 녹음을 지원하지 않습니다.",
+          statePermissionDenied: "마이크 접근이 거부되었습니다. 접근을 허용한 뒤 다시 시도해주세요.",
+          stateUploadReady: "녹음을 제출할 준비가 되었습니다.",
+          stateUploading: "업로드 중...",
+          stateUploaded: "녹음이 제출되었습니다.",
+          stateUploadFailed: "업로드에 실패했습니다. 다시 시도해주세요.",
+          stateNoRecording: "녹음 파일을 만들 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해주세요.",
+          submitRecording: "제출하기",
+          footer: `사이로랩스 \u00A9 ${new Date().getFullYear()} - 모두에게 자연스러운 앱을 만듭니다.`
+        }
+      };
+
+      const uploadUrl =
+        "https://nrpfqyjlweslaswatvif.supabase.co/functions/v1/user-interview-upload";
+      const storeUrl = "https://sairolabs.com/baby-dashboard/store-redirection";
+      const locale = "ko";
+      const dictionary = messages[locale];
+      document.title = dictionary.documentTitle;
+
+      const description = document.querySelector('meta[name="description"]');
+      if (description) {
+        description.setAttribute("content", dictionary.metaDescription);
+      }
+
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        if (dictionary[key]) {
+          node.textContent = dictionary[key];
+        }
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+        const key = node.getAttribute("data-i18n-placeholder");
+        if (dictionary[key]) {
+          node.setAttribute("placeholder", dictionary[key]);
+        }
+      });
+
+      const stepPanels = Array.from(document.querySelectorAll(".step-panel"));
+      const permissionButton = document.querySelector("#permissionButton");
+      const understoodButton = document.querySelector("#understoodButton");
+      const storeLink = document.querySelector("#storeLink");
+      const emailInput = document.querySelector("#email");
+      const emailError = document.querySelector("#emailError");
+      const submitButton = document.querySelector("#submitButton");
+      const step1Status = document.querySelector("#step1Status");
+      const submitStatus = document.querySelector("#submitStatus");
+      const recordingDot = document.querySelector("#recordingDot");
+      const recordingState = document.querySelector("#recordingState");
+
+      storeLink.href = storeUrl;
+
+      let mediaRecorder = null;
+      let mediaStream = null;
+      let recordedChunks = [];
+      let recordedBlob = null;
+      let recordedMimeType = "";
+      let recordedExtension = "webm";
+      let microphoneReady = false;
+      let uploadComplete = false;
+      let finalizeRecordingPromise = null;
+
+      function showStep(stepNumber) {
+        understoodButton.classList.remove("visible");
+        storeLink.classList.remove("visible");
+
+        stepPanels.forEach((panel) => {
+          panel.classList.toggle("active", panel.dataset.step === String(stepNumber));
+        });
+
+        if (stepNumber === 2 || stepNumber === 3) {
+          const cta = stepNumber === 2 ? understoodButton : storeLink;
+          window.requestAnimationFrame(() => {
+            cta.classList.add("visible");
+          });
+        }
+      }
+
+      function setMessage(node, key, variant) {
+        node.textContent = key ? dictionary[key] : "";
+        node.className = "status";
+
+        if (variant === "success") {
+          node.classList.add("status-success");
+        }
+
+        if (variant === "error") {
+          node.classList.add("status-error");
+        }
+      }
+
+      function setRecordingActive(isActive) {
+        document.querySelectorAll(".recording-dot").forEach((node) => {
+          node.classList.toggle("active", isActive);
+        });
+      }
+
+      function setRecordingState(key) {
+        recordingState.textContent = dictionary[key];
+      }
+
+      function stopMediaStream() {
+        if (mediaStream) {
+          mediaStream.getTracks().forEach((track) => track.stop());
+          mediaStream = null;
+        }
+      }
+
+      function validateEmail(showError) {
+        const email = emailInput.value.trim().toLowerCase();
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (showError) {
+          if (!email) {
+            emailError.textContent = dictionary.emailRequired;
+          } else if (!isValid) {
+            emailError.textContent = dictionary.emailInvalid;
+          } else {
+            emailError.textContent = "";
+          }
+        }
+
+        return isValid ? email : "";
+      }
+
+      function refreshSubmitState() {
+        const hasRecording =
+          Boolean(recordedBlob) || (mediaRecorder && mediaRecorder.state === "recording");
+        submitButton.disabled =
+          uploadComplete ||
+          submitButton.dataset.uploading === "true" ||
+          !hasRecording ||
+          !validateEmail(false);
+      }
+
+      function getSupportedAudioType() {
+        const candidates = [
+          { mimeType: "audio/webm;codecs=opus", extension: "webm" },
+          { mimeType: "audio/webm", extension: "webm" },
+          { mimeType: "audio/mp4", extension: "m4a" }
+        ];
+
+        if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported !== "function") {
+          return { mimeType: "", extension: "webm" };
+        }
+
+        return (
+          candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate.mimeType)) || {
+            mimeType: "",
+            extension: "webm"
+          }
+        );
+      }
+
+      async function requestMicrophonePermission() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+          permissionButton.disabled = true;
+          setMessage(step1Status, "stateUnsupported", "error");
+          return;
+        }
+
+        permissionButton.disabled = true;
+        setMessage(step1Status, "");
+
+        try {
+          mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          microphoneReady = true;
+          showStep(2);
+        } catch (error) {
+          stopMediaStream();
+          microphoneReady = false;
+          permissionButton.disabled = false;
+          setMessage(step1Status, "statePermissionDenied", "error");
+        }
+      }
+
+      function startRecording() {
+        if (!microphoneReady || !mediaStream) {
+          throw new Error("Microphone permission has not been granted");
+        }
+
+        recordedChunks = [];
+        recordedBlob = null;
+        uploadComplete = false;
+        finalizeRecordingPromise = null;
+
+        const audioType = getSupportedAudioType();
+        recordedMimeType = audioType.mimeType;
+        recordedExtension = audioType.extension;
+        mediaRecorder = recordedMimeType
+          ? new MediaRecorder(mediaStream, { mimeType: recordedMimeType })
+          : new MediaRecorder(mediaStream);
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          if (event.data && event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+        });
+
+        mediaRecorder.start();
+        setRecordingActive(true);
+        refreshSubmitState();
+      }
+
+      function finalizeRecording() {
+        if (recordedBlob) {
+          return Promise.resolve(recordedBlob);
+        }
+
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+          return Promise.reject(new Error("No active recording"));
+        }
+
+        if (finalizeRecordingPromise) {
+          return finalizeRecordingPromise;
+        }
+
+        finalizeRecordingPromise = new Promise((resolve, reject) => {
+          mediaRecorder.addEventListener(
+            "stop",
+            () => {
+              stopMediaStream();
+              setRecordingActive(false);
+              recordedBlob = new Blob(recordedChunks, {
+                type: recordedMimeType || mediaRecorder.mimeType || "audio/webm"
+              });
+              resolve(recordedBlob);
+            },
+            { once: true }
+          );
+
+          try {
+            mediaRecorder.stop();
+          } catch (error) {
+            reject(error);
+          }
+        });
+
+        return finalizeRecordingPromise;
+      }
+
+      async function uploadRecording() {
+        const email = validateEmail(true);
+
+        if (!email) {
+          refreshSubmitState();
+          return;
+        }
+
+        submitButton.dataset.uploading = "true";
+        submitButton.disabled = true;
+        emailInput.disabled = true;
+        setRecordingState("stateStopping");
+        setMessage(submitStatus, "stateStopping");
+
+        try {
+          const audioBlob = await finalizeRecording();
+
+          if (!audioBlob || audioBlob.size === 0) {
+            throw new Error("No recording data");
+          }
+
+          const extension = recordedExtension || "webm";
+          const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+          const file = new File([audioBlob], `user-interview-${timestamp}.${extension}`, {
+            type: audioBlob.type || recordedMimeType || "audio/webm"
+          });
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("email", email);
+
+          setMessage(submitStatus, "stateUploading");
+
+          const response = await fetch(uploadUrl, {
+            method: "POST",
+            body: formData
+          });
+
+          if (!response.ok) {
+            throw new Error(`Upload failed with status ${response.status}`);
+          }
+
+          uploadComplete = true;
+          setRecordingState("stateUploaded");
+          setMessage(submitStatus, "stateUploaded", "success");
+        } catch (error) {
+          setRecordingState(recordedBlob ? "stateUploadReady" : "stateNoRecording");
+          setMessage(submitStatus, recordedBlob ? "stateUploadFailed" : "stateNoRecording", "error");
+          emailInput.disabled = false;
+        } finally {
+          delete submitButton.dataset.uploading;
+          refreshSubmitState();
+        }
+      }
+
+      function transitionToSubmitStep() {
+        window.setTimeout(() => {
+          showStep(4);
+          refreshSubmitState();
+          emailInput.focus();
+        }, 1000);
+      }
+
+      function handleStoreLinkClick(event) {
+        try {
+          if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            startRecording();
+          }
+          transitionToSubmitStep();
+        } catch (error) {
+          event.preventDefault();
+          showStep(1);
+          microphoneReady = false;
+          permissionButton.disabled = false;
+          setRecordingActive(false);
+          setMessage(step1Status, "statePermissionDenied", "error");
+        }
+      }
+
+      permissionButton.addEventListener("click", requestMicrophonePermission);
+      understoodButton.addEventListener("click", () => showStep(3));
+      storeLink.addEventListener("click", handleStoreLinkClick);
+      submitButton.addEventListener("click", uploadRecording);
+      emailInput.addEventListener("input", () => {
+        validateEmail(Boolean(emailError.textContent));
+        refreshSubmitState();
+      });
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+        permissionButton.disabled = true;
+        setMessage(step1Status, "stateUnsupported", "error");
+      }
+    </script>
+  </body>
+</html>
