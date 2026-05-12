@@ -217,26 +217,6 @@
         font-weight: 700;
       }
 
-      .recording-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-        margin-top: 20px;
-        color: var(--muted);
-      }
-
-      .recording-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--line);
-      }
-
-      .recording-dot.active {
-        background: var(--danger);
-      }
-
       .footer {
         margin-top: 36px;
         padding-top: 18px;
@@ -383,7 +363,7 @@
             />
             <p id="emailError" class="field-error" aria-live="polite"></p>
           </div>
-          <button id="submitButton" type="button" data-i18n="submitRecording" disabled>
+          <button id="submitButton" type="button" data-i18n="submitRecording" hidden disabled>
             제출하기
           </button>
           <div id="uploadProgress" class="upload-progress" hidden>
@@ -393,10 +373,6 @@
             </p>
           </div>
           <p id="submitStatus" class="status" aria-live="polite"></p>
-          <div class="recording-meta">
-            <span id="recordingDot" class="recording-dot active" aria-hidden="true"></span>
-            <span id="recordingState" data-i18n="stateRecording">녹음 중</span>
-          </div>
         </section>
 
         <section id="step5" class="step-panel" data-step="5">
@@ -452,13 +428,10 @@
           allowMicrophone: "허락하기",
           understood: "이해했습니다",
           goStore: "스토어로 이동",
-          stateRecording: "녹음 중",
           stateStopping: "녹음을 저장하는 중...",
           stateUnsupported: "이 브라우저에서는 녹음을 지원하지 않습니다.",
           statePermissionDenied: "마이크 접근이 거부되었습니다. 접근을 허용한 뒤 다시 시도해주세요.",
-          stateUploadReady: "녹음을 제출할 준비가 되었습니다.",
           stateUploading: "업로드 중...",
-          stateUploaded: "녹음이 제출되었습니다.",
           stateUploadFailed: "업로드에 실패했습니다. 다시 시도해주세요.",
           stateNoRecording: "녹음 파일을 만들 수 없습니다. 페이지를 새로고침한 뒤 다시 시도해주세요.",
           uploadProgressPending: "업로드를 준비하고 있습니다...",
@@ -503,8 +476,6 @@
       const submitButton = document.querySelector("#submitButton");
       const step1Status = document.querySelector("#step1Status");
       const submitStatus = document.querySelector("#submitStatus");
-      const recordingDot = document.querySelector("#recordingDot");
-      const recordingState = document.querySelector("#recordingState");
       const uploadProgress = document.querySelector("#uploadProgress");
       const uploadProgressBar = document.querySelector("#uploadProgressBar");
       const uploadProgressText = document.querySelector("#uploadProgressText");
@@ -550,16 +521,6 @@
         }
       }
 
-      function setRecordingActive(isActive) {
-        document.querySelectorAll(".recording-dot").forEach((node) => {
-          node.classList.toggle("active", isActive);
-        });
-      }
-
-      function setRecordingState(key) {
-        recordingState.textContent = dictionary[key];
-      }
-
       function stopMediaStream() {
         if (mediaStream) {
           mediaStream.getTracks().forEach((track) => track.stop());
@@ -587,9 +548,13 @@
       function refreshSubmitState() {
         const hasRecording =
           Boolean(recordedBlob) || (mediaRecorder && mediaRecorder.state === "recording");
+        const isUploading = submitButton.dataset.uploading === "true";
+        const canSubmit = hasRecording && validateEmail(false) && !uploadComplete;
+
+        submitButton.hidden = !canSubmit;
         submitButton.disabled =
           uploadComplete ||
-          submitButton.dataset.uploading === "true" ||
+          isUploading ||
           !hasRecording ||
           !validateEmail(false);
       }
@@ -717,7 +682,6 @@
         });
 
         mediaRecorder.start();
-        setRecordingActive(true);
         refreshSubmitState();
       }
 
@@ -739,7 +703,6 @@
             "stop",
             () => {
               stopMediaStream();
-              setRecordingActive(false);
               recordedBlob = new Blob(recordedChunks, {
                 type: recordedMimeType || mediaRecorder.mimeType || "audio/webm"
               });
@@ -769,7 +732,6 @@
         submitButton.dataset.uploading = "true";
         submitButton.disabled = true;
         emailInput.disabled = true;
-        setRecordingState("stateStopping");
         setMessage(submitStatus, "stateStopping");
         resetUploadProgress();
 
@@ -793,11 +755,9 @@
           await uploadFormData(formData);
 
           uploadComplete = true;
-          setRecordingState("stateUploaded");
           showStep(5);
         } catch (error) {
           resetUploadProgress();
-          setRecordingState(recordedBlob ? "stateUploadReady" : "stateNoRecording");
           setMessage(submitStatus, recordedBlob ? "stateUploadFailed" : "stateNoRecording", "error");
           emailInput.disabled = false;
         } finally {
@@ -825,7 +785,6 @@
           showStep(1);
           microphoneReady = false;
           permissionButton.disabled = false;
-          setRecordingActive(false);
           setMessage(step1Status, "statePermissionDenied", "error");
         }
       }
