@@ -71,6 +71,12 @@
         color: var(--accent);
       }
 
+      h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+        color: var(--accent);
+      }
+
       p {
         margin: 0 0 14px;
         line-height: 1.8;
@@ -96,6 +102,10 @@
       .emphasis {
         color: var(--accent);
         font-weight: 600;
+      }
+
+      .product-links a {
+        color: var(--accent);
       }
 
       .footer {
@@ -187,21 +197,59 @@
       </section>
 
       <section>
-        <h2 data-i18n="todayHeading">Today</h2>
-        <p data-i18n="todayBody1">
-          We are early in our journey and currently building our first products. While our
-          portfolio is still taking shape, our commitment to thoughtful, well-crafted apps is
-          already set in motion.
+        <h2 data-i18n="productsHeading">Products</h2>
+        <h3 data-i18n="babyDashboardHeading">Baby Dashboard</h3>
+        <p data-i18n="babyDashboardDescription">
+          Dashboard styled parenting app that enables collaboration with multiple caregivers
+          without multiple installs.
         </p>
-        <p data-i18n="todayBody2">
-          We welcome opportunities to collaborate with partners who value simplicity, inclusion,
-          and joyful experiences.
-        </p>
+        <ul class="product-links">
+          <li>
+            <span data-i18n="productDetailLabel">Detail:</span>
+            <a href="https://sairolabs.com/baby-dashboard/" data-i18n="productDetailLink">
+              Baby Dashboard
+            </a>
+          </li>
+          <li>
+            <span data-i18n="productIosLabel">iOS:</span>
+            <a
+              href="https://apps.apple.com/us/app/baby-dashboard/id6758552709"
+              data-i18n="productIosLink"
+            >
+              App Store
+            </a>
+          </li>
+          <li>
+            <span data-i18n="productAndroidLabel">Android:</span>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.sairolabs.babydashboard"
+              data-i18n="productAndroidLink"
+            >
+              Google Play
+            </a>
+          </li>
+          <li>
+            <span data-i18n="productPrivacyLabel">Privacy Policy:</span>
+            <a
+              href="http://sairolabs.com/baby-dashboard/privacy-policy/"
+              data-i18n="productPrivacyLink"
+            >
+              Baby Dashboard Privacy Policy
+            </a>
+          </li>
+        </ul>
       </section>
 
       <section class="link-row">
         <p>
           <a href="/contact" data-i18n="contactLink">Contact Us</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 data-i18n="websitePrivacyHeading">Privacy Policy</h2>
+        <p data-i18n="websitePrivacyBody">
+          We do not collect any information of user in this website.
         </p>
       </section>
 
@@ -240,12 +288,21 @@
           visionBody2:
             "Our work is guided by one simple belief: the best apps remove friction and give people back their time, attention, and confidence.",
           deliverHeading: "What We Will Deliver",
-          todayHeading: "Today",
-          todayBody1:
-            "We are early in our journey and currently building our first products. While our portfolio is still taking shape, our commitment to thoughtful, well-crafted apps is already set in motion.",
-          todayBody2:
-            "We welcome opportunities to collaborate with partners who value simplicity, inclusion, and joyful experiences.",
+          productsHeading: "Products",
+          babyDashboardHeading: "Baby Dashboard",
+          babyDashboardDescription:
+            "Dashboard styled parenting app that enables collaboration with multiple caregivers without multiple installs.",
+          productDetailLabel: "Detail:",
+          productDetailLink: "Baby Dashboard",
+          productIosLabel: "iOS:",
+          productIosLink: "App Store",
+          productAndroidLabel: "Android:",
+          productAndroidLink: "Google Play",
+          productPrivacyLabel: "Privacy Policy:",
+          productPrivacyLink: "Baby Dashboard Privacy Policy",
           contactLink: "Contact Us",
+          websitePrivacyHeading: "Privacy Policy",
+          websitePrivacyBody: "We do not collect any information of user in this website.",
           companyName: "Sairolabs",
           companyCeoLine: "대표: 이수연",
           businessRegistrationLine: "사업자등록번호: 246-52-01109",
